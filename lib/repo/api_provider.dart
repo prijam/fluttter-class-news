@@ -8,16 +8,17 @@ class ApiProvider {
   static const String api = "https://hacker-news.firebaseio.com/v0";
   Client client = Client();
 
-  fetchTopIds() async {
-    final response = await client.get("$api/topstories.jsony");
+ Future fetchTopIds() async {
+    final response = await client.get("$api/topstories.json");
     final id = jsonDecode(response.body);
-    return debugPrint(id);
+    debugPrint(response.toString());
+    return id;
   }
 
   fetchItem(int id) async {
     final response = await client.get("$api/item/$id.json");
     final content = jsonDecode(response.body);
-    debugPrint(content);
+    debugPrint(content.toString());
     return ItemModel.fromJson(content);
   }
 }
