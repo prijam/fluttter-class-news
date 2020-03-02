@@ -11,13 +11,13 @@ class ApiProvider {
   fetchTopIds() async {
     final response = await client.get("$api/topstories.jsony");
     final id = jsonDecode(response.body);
-    debugPrint(id);
-    return id;
+    return debugPrint(id);
   }
 
   fetchItem(int id) async {
     final response = await client.get("$api/item/$id.json");
     final content = jsonDecode(response.body);
+    debugPrint(content);
     return ItemModel.fromJson(content);
   }
 }
