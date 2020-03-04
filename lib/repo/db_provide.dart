@@ -1,10 +1,11 @@
 import 'package:flutter_news_app_bloc/models/item-model.dart';
+import 'package:flutter_news_app_bloc/repo/sources.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-class DbProvider {
+class DbProvider extends Sources {
   static const db_name = 'news_item.db';
   Database db;
 
@@ -43,7 +44,7 @@ class DbProvider {
       },
     );
   }
-
+  @override
   insertItem(ItemModel itemModel) {
     return db.insert(
       'Items',
@@ -53,6 +54,7 @@ class DbProvider {
     //insert into Items() values()
   }
 
+  @override
   fetchItem(int id) async {
     final data = await db.query(
       'Items',
@@ -65,5 +67,11 @@ class DbProvider {
     }
       return ItemModel.fromDB(data.first);
     
+  }
+
+  @override
+  Future<List<int>> fetchTopIds() {
+    // TODO: implement fetchTopIds
+    return null;
   }
 }

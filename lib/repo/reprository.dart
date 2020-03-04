@@ -1,27 +1,32 @@
 import 'package:flutter_news_app_bloc/models/item-model.dart';
 import 'package:flutter_news_app_bloc/repo/api_provider.dart';
 import 'package:flutter_news_app_bloc/repo/db_provide.dart';
+import 'package:flutter_news_app_bloc/repo/sources.dart';
 
 class Respository {
-  final dbProvider = DbProvider();
-  final apiProvider = ApiProvider();
+  List<Sources> sources = [
+    DbProvider(),
+    ApiProvider(),
+  ];
 
   fetchTopIds() async {
-    return await apiProvider.fetchItem();
+    return await sources[1].fetchTopIds();
   }
 
   fetchItem(int id) async {
     ItemModel item;
-    item = await dbProvider.fetchItem(id);
-    if (item != null) {
-      return item;
-    } else {
-      item = await apiProvider.fetchItem(id);
+    var source;
+    for (source in sources) {
+      item = await source.fetchItem(id);
       if (item != null) {
-        dbProvider.insertItem(item);
-      } else {
-        return item;
+        break;
       }
     }
+    for (var origin in sources) {
+      if (source != origin) {
+        origin.insertItem(item);
+      }
+    }
+    return item;
   }
 }
