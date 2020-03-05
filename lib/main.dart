@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app_bloc/HomePage/HomePage.dart';
+import 'Screen/HomePage.dart';
 
 void main() => runApp(NewsApp());
 
@@ -14,9 +14,14 @@ class _NewsAppState extends State<NewsApp> {
     return MaterialApp(
       title: "News App",
       debugShowCheckedModeBanner: false,
-      color: Colors.indigo[900],
       home: Scaffold(
-
+        appBar: AppBar(
+          leading: Icon(Icons.navigate_before,size:30.0,),
+          backgroundColor: Colors.indigo[900],
+          centerTitle: true,
+        elevation: 100.0,
+          title: Text("News App"),
+        ),
         body: HomePage(),
       ),
     );
