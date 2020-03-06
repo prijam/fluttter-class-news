@@ -1,28 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app_bloc/src/bloc/News_Bloc_Provider.dart';
 import 'Screen/HomePage.dart';
 
-void main() => runApp(NewsApp());
-
-class NewsApp extends StatefulWidget {
-  @override
-  _NewsAppState createState() => _NewsAppState();
+void main() {
+  runApp(App());
 }
 
-class _NewsAppState extends State<NewsApp> {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "News App",
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          leading: Icon(Icons.navigate_before,size:30.0,),
-          backgroundColor: Colors.indigo[900],
-          centerTitle: true,
-        elevation: 100.0,
-          title: Text("News App"),
-        ),
-        body: HomePage(),
+      title: 'Hacker News App',
+      theme: ThemeData.dark(),
+      home: NewsBlocProvider(
+        child: NewsScreen(),
       ),
     );
   }

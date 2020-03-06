@@ -5,6 +5,10 @@ class NewsBloc {
   final _repository = Respository();
   BehaviorSubject<List<int>> _topId = BehaviorSubject<List<int>>();
 
+  PublishSubject<int> _itemId = PublishSubject<int>();
+
+  Function(int) get itemId => _itemId.sink.add;
+
   fetchTopId() async {
     final list = await _repository.fetchTopIds();
     _topId.sink.add(list);
@@ -14,5 +18,6 @@ class NewsBloc {
 
   close() {
     _topId.close();
+    _itemId.close();
   }
 }

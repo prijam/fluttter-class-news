@@ -9,8 +9,8 @@ class ApiProvider extends Sources {
 
   @override
   fetchTopIds() async {
-    final response = await client.get("$api/topstories.jsony");
-    final id = jsonDecode(response.body);
+    final response = await client.get("$api/topstories.json");
+    final id = jsonDecode(response.body).cast<int>();
     return id;
   }
 
