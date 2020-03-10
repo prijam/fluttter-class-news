@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app_bloc/src/Widgets/news_item.dart';
 import 'package:flutter_news_app_bloc/src/bloc/News_BLOC.dart';
 import 'package:flutter_news_app_bloc/src/bloc/News_Bloc_Provider.dart';
 
@@ -25,7 +26,7 @@ class NewsScreen extends StatelessWidget {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   bloc.itemId(snapshot.data[index]);
-                  return Text("null");
+                  return NewsItem(id:snapshot.data[index]);
                 })
             : Center(child: CircularProgressIndicator());
       },
