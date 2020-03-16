@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app_bloc/Screen/test.dart';
 import 'package:flutter_news_app_bloc/models/item-model.dart';
 import 'package:flutter_news_app_bloc/src/Widgets/loading_container.dart';
 import 'package:flutter_news_app_bloc/src/bloc/News_BLOC.dart';
@@ -26,57 +27,68 @@ class NewsItem extends StatelessWidget {
               if (!sn.hasData) {
                 return LoadingContainer();
               }
-              return buildItem(sn.data);
+              return buildItem(sn.data, context);
             },
           );
         });
   }
 
-  Widget buildItem(ItemModel data) {
+  Widget buildItem(ItemModel data, BuildContext context) {
     return ListTile(
       title: Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10.0),
         child: Container(
             height: 100.0,
             width: double.infinity,
-            child: Card(
-                elevation: 2.0,
-                child: Stack(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 20.0, bottom: 8.0, left:22.0, right:5.0),
-                      child: Text(
-                        data.title,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Positioned(
-                      top: 65.0,
-                      left: 25.0,
-                      child: Text(
-                        "The total socre for this article is ${data.score.toString()}",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: Colors.grey.withOpacity(0.7),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailsPage(
+                            title: data.title,
+                          )),
+                );
+              },
+              child: Card(
+                  elevation: 2.0,
+                  child: Stack(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20.0, bottom: 8.0, left: 22.0, right: 5.0),
+                        child: Text(
+                          data.title,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      right: 22.0,
-                      top: 45.0,
-                      child: Column(
-                        children: <Widget>[
-                          Icon(
-                            Icons.comment,
+                      Positioned(
+                        top: 65.0,
+                        left: 25.0,
+                        child: Text(
+                          "The total socre for this article is ${data.score.toString()}",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            color: Colors.grey.withOpacity(0.7),
                           ),
-                          Text("${data.descendants}")
-                        ],
+                        ),
                       ),
-                    )
-                  ],
-                ))),
+                      Positioned(
+                        right: 22.0,
+                        top: 45.0,
+                        child: Column(
+                          children: <Widget>[
+                            Icon(
+                              Icons.comment,
+                            ),
+                            Text("${data.descendants}")
+                          ],
+                        ),
+                      )
+                    ],
+                  )),
+            )),
       ),
     );
   }
