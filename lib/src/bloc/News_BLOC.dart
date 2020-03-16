@@ -1,26 +1,24 @@
 import 'dart:async';
-
 import 'package:flutter_news_app_bloc/models/item-model.dart';
 import 'package:flutter_news_app_bloc/repo/reprository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NewsBloc {
- static final _repository = Respository();
-  BehaviorSubject<List<int>> _topId = BehaviorSubject<List<int>>();
+  final _repository = Respository();
 
-  PublishSubject<int> _itemId = PublishSubject<int>();
+  BehaviorSubject<List<int>> _topId = BehaviorSubject<List<int>>();
+  BehaviorSubject<Map<int, Future<ItemModel>>> _itemStream =
+      BehaviorSubject<Map<int, Future<ItemModel>>>();
+
+  BehaviorSubject<int> _itemId = BehaviorSubject<int>();
 
   Function(int) get itemId => _itemId.sink.add;
 
-  Stream<Map<int, Future<ItemModel>>> get itemStream =>
-      _topId.stream.transform(_itemTransform());
+  Stream<Map<int, Future<ItemModel>>> get itemStream => _itemStream.stream;
 
- Stream<Future<ItemModel>> get testStream => _itemId.stream.transform(_itemTransformer);
-
-  final _itemTransformer = StreamTransformer<int,Future<ItemModel>>.fromHandlers(handleData:(id,sink) async {
-    final itemModel = await _repository.fetchItem(id);
-    sink.add(itemModel);
-  });
+  NewsBloc() {
+    _itemId.stream.transform(_itemTransform()).pipe(_itemStream);
+  }
 
   fetchTopId() async {
     final list = await _repository.fetchTopIds();
@@ -31,8 +29,13 @@ class NewsBloc {
     return ScanStreamTransformer(
         (Map<int, Future<ItemModel>> cache, int id, index) {
       cache[id] = _repository.fetchItem(id);
+      print("This is called upto $index times");
       return cache;
     }, <int, Future<ItemModel>>{});
+  }
+
+  clearData() async {
+    return _repository.clearData();
   }
 
   Stream<List<int>> get topId => _topId.stream;
@@ -40,5 +43,6 @@ class NewsBloc {
   close() {
     _topId.close();
     _itemId.close();
+    _itemStream.close();
   }
 }

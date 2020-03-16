@@ -5,11 +5,12 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-class DbProvider extends Sources {
+class _DbProvider implements Sources, Cache {
   static const db_name = 'news_item.db';
   Database db;
+  static const TABLE_NAME = 'ITEMS';
 
-  DbProvider() {
+  _DbProvider() {
     init();
   }
 
@@ -44,6 +45,7 @@ class DbProvider extends Sources {
       },
     );
   }
+
   @override
   insertItem(ItemModel itemModel) {
     return db.insert(
@@ -55,18 +57,14 @@ class DbProvider extends Sources {
   }
 
   @override
-  fetchItem(int id) async {
+  Future<ItemModel> fetchItem(int id) async {
     final data = await db.query(
       'Items',
       columns: ['*'],
       where: "id= ?",
       whereArgs: [id],
     );
-    if (data == null) {
-      return null;
-    }
-      return ItemModel.fromDB(data.first);
-    
+    return data.length > 0 ? ItemModel.fromDB(data.first) : null;
   }
 
   @override
@@ -74,4 +72,11 @@ class DbProvider extends Sources {
     // TODO: implement fetchTopIds
     return null;
   }
+
+  @override
+  Future<int> clearData() async {
+    db.delete(TABLE_NAME);
+  }
 }
+
+final dbProvider = _DbProvider();

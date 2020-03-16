@@ -34,15 +34,16 @@ class ItemModel {
     by = json['by'];
     descendants = json['descendants'];
     id = json['id'];
-    kids = json['kids'].cast<int>();
+    kids = json['kids'] == null ? [] : json["kids"].cast<int>();
+
     score = json['score'];
     text = json['text'];
     time = json['time'];
-    title = json['title'];
+    title = json['title'] ?? "";
     type = json['type'];
     url = json['url'];
-    deleted = json['deleted'];
-    dead = json['dead'];
+    deleted = json['deleted'] ?? false;
+    dead = json['dead'] ?? false;
     parent = json['parent'];
   }
 

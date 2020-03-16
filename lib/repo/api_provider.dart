@@ -8,21 +8,16 @@ class ApiProvider extends Sources {
   Client client = Client();
 
   @override
-  fetchTopIds() async {
+  Future<List<int>> fetchTopIds() async {
     final response = await client.get("$api/topstories.json");
     final id = jsonDecode(response.body).cast<int>();
     return id;
   }
 
   @override
-  fetchItem(int id) async {
+  Future<ItemModel> fetchItem(int id) async {
     final response = await client.get("$api/item/$id.json");
     final content = jsonDecode(response.body);
     return ItemModel.fromJson(content);
-  }
-
-  @override
-  Future<int> insertItem(ItemModel item) {
-    return null;
   }
 }

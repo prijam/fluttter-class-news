@@ -4,9 +4,10 @@ abstract class Sources {
   Future<List<int>> fetchTopIds();
 
   Future<ItemModel> fetchItem(int id);
-
-  Future<int> insertItem(ItemModel item);
-
 }
 
+abstract class Cache {
+  Future<int> insertItem(ItemModel item);
 
+  Future<int> clearData();
+}

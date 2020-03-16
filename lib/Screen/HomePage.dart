@@ -22,12 +22,18 @@ class NewsScreen extends StatelessWidget {
       stream: bloc.topId,
       builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
         return snapshot.hasData
-            ? ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  bloc.itemId(snapshot.data[index]);
-                  return NewsItem(id:snapshot.data[index]);
-                })
+            ? RefreshIndicator(
+          onRefresh: ()async{
+            await bloc.clearData();
+            await bloc.fetchTopId();
+          },
+              child: ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    bloc.itemId(snapshot.data[index]);
+                    return NewsItem(id:snapshot.data[index]);
+                  }),
+            )
             : Center(child: CircularProgressIndicator());
       },
     );

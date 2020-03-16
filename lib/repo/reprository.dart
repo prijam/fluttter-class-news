@@ -5,28 +5,37 @@ import 'package:flutter_news_app_bloc/repo/sources.dart';
 
 class Respository {
   List<Sources> sources = [
-    DbProvider(),
+    dbProvider,
     ApiProvider(),
   ];
-
+  List<Cache> cache = [
+    dbProvider,
+  ];
   fetchTopIds() async {
     return await sources[1].fetchTopIds();
   }
 
-  fetchItem(int id) async {
+  Future<ItemModel> fetchItem(int id) async {
     ItemModel item;
-    var source;
+    Sources source;
     for (source in sources) {
       item = await source.fetchItem(id);
       if (item != null) {
         break;
       }
     }
-    for (var origin in sources) {
-      if (source != origin) {
+    for (var origin in cache) {
+      if (source != origin as Sources) {
         origin.insertItem(item);
       }
     }
     return item;
+  }
+
+  clearData()  {
+    var s;
+    for (s in cache) {
+      s.clearData();
+    }
   }
 }
