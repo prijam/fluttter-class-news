@@ -29,6 +29,7 @@ dependencies:
   path_provider: ^1.6.4
   rxdart: ^0.23.1
   shimmer: ^1.1.0
+  expansion_tile_card: ^1.0.2+2
 
 dev_dependencies:
   flutter_test:

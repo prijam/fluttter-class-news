@@ -35,60 +35,58 @@ class NewsItem extends StatelessWidget {
 
   Widget buildItem(ItemModel data, BuildContext context) {
     return ListTile(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DetailsPage(
+                title: data.title,
+              )),
+        );
+      },
       title: Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10.0),
         child: Container(
             height: 100.0,
             width: double.infinity,
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DetailsPage(
-                            title: data.title,
-                          )),
-                );
-              },
-              child: Card(
-                  elevation: 2.0,
-                  child: Stack(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20.0, bottom: 8.0, left: 22.0, right: 5.0),
-                        child: Text(
-                          data.title,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+            child: Card(
+                elevation: 2.0,
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 20.0, bottom: 8.0, left: 22.0, right: 5.0),
+                      child: Text(
+                        data.title,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Positioned(
+                      top: 65.0,
+                      left: 25.0,
+                      child: Text(
+                        "The total socre for this article is ${data.score.toString()}",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          color: Colors.grey.withOpacity(0.7),
                         ),
                       ),
-                      Positioned(
-                        top: 65.0,
-                        left: 25.0,
-                        child: Text(
-                          "The total socre for this article is ${data.score.toString()}",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: Colors.grey.withOpacity(0.7),
+                    ),
+                    Positioned(
+                      right: 22.0,
+                      top: 45.0,
+                      child: Column(
+                        children: <Widget>[
+                          Icon(
+                            Icons.comment,
                           ),
-                        ),
+                          Text("${data.descendants}")
+                        ],
                       ),
-                      Positioned(
-                        right: 22.0,
-                        top: 45.0,
-                        child: Column(
-                          children: <Widget>[
-                            Icon(
-                              Icons.comment,
-                            ),
-                            Text("${data.descendants}")
-                          ],
-                        ),
-                      )
-                    ],
-                  )),
-            )),
+                    )
+                  ],
+                ))),
       ),
     );
   }

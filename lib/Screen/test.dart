@@ -28,25 +28,25 @@ class DetailsPage extends StatelessWidget {
             width:250.0,
             child: Text(title,overflow: TextOverflow.ellipsis,)),
       ),
-      body: Card(
-        elevation: 25.0,
-        child: Center(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              colors: [Colors.blue, Colors.indigo],
-            )),
-            child: Center(
-                child: Padding(
-              padding: EdgeInsets.only(left: 47.0),
+      body: Center(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [Colors.blue, Colors.indigo],
+          )),
+          child: Center(
+              child: Padding(
+            padding: EdgeInsets.only(left: 47.0),
+            child: Hero(
+              tag: "herotest",
               child: Text(
                 title,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-            )),
-          ),
+            ),
+          )),
         ),
       ),
     );
